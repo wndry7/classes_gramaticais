@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .game-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 10px 10px 100px rgba(6, 1, 1, 0.1);
+      
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .game {
+      margin-top: 20px;
+    }
+
+    #word {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    #answer {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    #checkButton {
+      padding: 5px 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-weight: bold;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    #correctAnswer {
+      color: #cc0000;
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+  <title>Jogo das Classes Gramaticais</title>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Jogo das Classes Gramaticais</h1>
+    <p>By Wandrey</p>
+    <p>Indique se a palavra é um substantivo, adjetivo ou verbo:</p>
+    <div class="game">
+      <p id="word">Palavra</p>
+      <input type="text" id="answer" placeholder="Digite sua resposta">
+      <button id="checkButton">Verificar</button>
+      <p id="result"></p>
+      <p id="correctAnswer"></p>
+    </div>
+  </div>
+  <script>
+    const wordElement = document.getElementById("word");
+    const answerElement = document.getElementById("answer");
+    const checkButton = document.getElementById("checkButton");
+    const resultElement = document.getElementById("result");
+    const correctAnswerElement = document.getElementById("correctAnswer");
+
+    const words = [
+      { word: "casa", type: "substantivo" },
+      { word: "rápido", type: "adjetivo" },
+      { word: "correr", type: "verbo" },
+      { word: "azul", type: "adjetivo" },
+      { word: "livro", type: "substantivo" },
+      { word: "pular", type: "verbo" },
+      { word: "lento", type: "adjetivo" },
+      { word: "maçã", type: "substantivo" },
+      { word: "cantar", type: "verbo" },
+      { word: "feliz", type: "adjetivo" },
+      { word: "cachorro", type: "substantivo" },
+      { word: "alto", type: "adjetivo" },
+      // Adicione mais palavras aqui
+    ];
+
+    // Função para embaralhar o array de palavras
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    let currentWordIndex = 0;
+
+    function displayWord() {
+      wordElement.textContent = words[currentWordIndex].word;
+    }
+
+    // ...
+
+function checkAnswer() {
+  const userAnswer = answerElement.value.trim().toLowerCase();
+  const expectedAnswer = words[currentWordIndex].type;
+
+  if (userAnswer === expectedAnswer) {
+    resultElement.textContent = "Resposta correta!";
+    correctAnswerElement.style.display = "none";
+  } else {
+    resultElement.textContent = "Resposta incorreta. Tente novamente.";
+    correctAnswerElement.style.display = "block";
+    correctAnswerElement.textContent = "Resposta correta: " + expectedAnswer;
+  }
+
+  // Esconde ambas as mensagens após 3 segundos
+  setTimeout(() => {
+    resultElement.textContent = "";
+    correctAnswerElement.style.display = "none";
+  }, 3000);
+
+  // Move para a próxima palavra de forma aleatória
+  currentWordIndex = (currentWordIndex + 1) % words.length;
+  displayWord();
+  answerElement.value = "";
+}
+
+// ...
+
+
+
+    shuffleArray(words); // Embaralhar as palavras antes de começar
+    displayWord(); // Exibe a primeira palavra ao carregar a página
+
+    checkButton.addEventListener("click", checkAnswer);
+  </script>
+</body>
+</html>
